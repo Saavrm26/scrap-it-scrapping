@@ -1,0 +1,17 @@
+__pycache__/
+pip-log.txt
+
+*.env
+venv/
+**/node_modules
+node_modules/**
+*.cache
+
+**.vscode
+**/*.code-workspace
+
+config.py
+
+test_files
+
+results

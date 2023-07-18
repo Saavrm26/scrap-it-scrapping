@@ -1,0 +1,9 @@
+**/venv
+results
+.env
+test_files
+__pycache__/
+pip-log.txt
+*.cache
+**.vscode
+**/*.code-workspace
