@@ -1,21 +1,10 @@
-FROM python:3.11.4
-
-ENV PYTHONBUFFERED 1
-
-COPY ./requirements.txt /tmp/requirements.txt
-
-ADD . /scrap-it-scrapping/
-
-WORKDIR /scrap-it-scrapping
-
-EXPOSE 8080
-
-RUN python -m venv /py && \
-  /py/bin/pip install -r /tmp/requirements.txt
-
-RUN  /py/bin/python -m playwright install-deps && /py/bin/python -m playwright install chromium
-
-
-ENV PATH="/py/bin:$PATH"
-
-CMD bash -c "python server.py"
+FROM scrapinghub/scrapinghub-stack-scrapy:1.3
+ENV TERM xterm
+ENV SCRAPY_SETTINGS_MODULE scrapping.settings
+RUN mkdir -p /app
+WORKDIR /app
+COPY ./requirements.txt /app/requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+RUN  python -m playwright install-deps && python -m playwright install chromium
+COPY . /app
+RUN python setup.py install
