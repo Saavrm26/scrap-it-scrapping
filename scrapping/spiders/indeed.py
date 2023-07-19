@@ -35,8 +35,9 @@ class IndeedSpider(scrapy.Spider):
             prYellow("Inside Indeed Spider's parse_job_cards")
             job_cards_list = response.css(
                 ".jobsearch-ResultsList").css(".cardOutline")
-            # For testing, limited results to 1
-            for job_card in job_cards_list[0:1]:
+            # For testing, limited results to small numbers
+            lim = min(6,len(job_cards_list))
+            for job_card in job_cards_list[0:lim]:
 
                 jk = job_card.css('a::attr(data-jk)').get()
                 job_url = f"https://in.indeed.com/viewjob?jk={jk}"
@@ -52,9 +53,7 @@ class IndeedSpider(scrapy.Spider):
             prYellow("Inside parse_job_page")
             scrapped_items = {}
 
-            scrapped_items[JOB_TITLE] = response.css(
-                'h1.jobsearch-JobInfoHeader-title span::text').get()
-
+            scrapped_items[JOB_TITLE] = self.title
             scrapped_items[JOB_URL] = response.url
 
             scrapped_items[LOCATION] = response.css(

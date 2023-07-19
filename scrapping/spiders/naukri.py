@@ -30,8 +30,9 @@ class NaukriSpider(scrapy.Spider):
         try:
             prYellow("Inside Naukri Spider's parse_job_cards")
             job_cards_list = response.css(".jobTuple")
-            # For testing, limited results to 1
-            for job_card in job_cards_list[0:1]:
+            # For testing, limited results to small number
+            lim = min(6,len(job_cards_list))
+            for job_card in job_cards_list[0:lim]:
                 job_url = job_card.css('a.title::attr(href)').get()
                 # prGreen(job_url)
                 yield response.follow(job_url, callback=self.parse_job_page, meta=meta)
@@ -47,8 +48,7 @@ class NaukriSpider(scrapy.Spider):
             jd_body = response.css(".jd-container .leftSec")
             scrapped_items = {}
 
-            scrapped_items[JOB_TITLE] = jd_body.css(
-                ".jd-header-title::text").get()
+            scrapped_items[JOB_TITLE] = self.title
 
             scrapped_items[JOB_URL] = response.url
 

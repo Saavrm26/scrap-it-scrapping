@@ -1,9 +1,15 @@
 **/venv
 results
-.env
 test_files
 __pycache__/
 pip-log.txt
 *.cache
 **.vscode
 **/*.code-workspace
+
+build/
+dbs/
+eggs/
+project.egg-info/
+setup.py
+*.pid
